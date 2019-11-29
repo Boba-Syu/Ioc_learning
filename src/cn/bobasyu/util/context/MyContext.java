@@ -16,6 +16,9 @@ public class MyContext {
     public static void run(Class clazz) {
         MyScan myScan = (MyScan) clazz.getAnnotation(MyScan.class);
         String pack = myScan.value();
+        if (pack == null || pack == "") {
+            pack = myScan.getClass().getPackage().toString();
+        }
         // 先把包名转换为路径,首先得到项目的classpath
         String classpath = clazz.getResource("/").getPath().replace("/", File.separator);
         //然后把我们的包名basPath转换为路径名
