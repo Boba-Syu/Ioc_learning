@@ -1,4 +1,4 @@
-package cn.bobasyu.util.annotation;
+package cn.bobasyu.ioc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author 19148
+ * 标有这个注解的变量将会被注入相对应的对象
+ * @author Boba
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MyCompetent {
+public @interface MyAutoWired {
 }
