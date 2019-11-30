@@ -11,6 +11,6 @@ public class MyTestInterfaceImpl implements MyTestInterface {
 
     @Override
     public void test() {
-        System.out.println();
+        System.out.println("test");
     }
 }

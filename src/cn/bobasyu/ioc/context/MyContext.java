@@ -1,8 +1,11 @@
 package cn.bobasyu.ioc.context;
 
+import cn.bobasyu.test.aaa.impl.MyTestInterfaceImpl;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * IoC容器
@@ -38,9 +41,10 @@ public class MyContext {
         if (objectMap.containsKey(clazz)) {
             return objectMap.get(clazz);
         }
+
         for (Class c : objectMap.keySet()) {
-            for (Class i : clazz.getClasses()) {
-                if (c.equals(i)) {
+            for (Class i : c.getInterfaces()) {
+                if (clazz.equals(i)) {
                     return objectMap.get(c);
                 }
             }
@@ -48,8 +52,12 @@ public class MyContext {
         return null;
     }
 
+    Set<Class> classSet() {
+        return objectMap.keySet();
+    }
+
     void show() {
-        for(Class clazz: objectMap.keySet()) {
+        for (Class clazz : objectMap.keySet()) {
             System.out.println("" + clazz + objectMap.get(clazz));
         }
     }

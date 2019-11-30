@@ -57,10 +57,11 @@ public class MyApplication {
     private void addObject(List<Class> classList) {
         for (Class clazz : classList) {
             Annotation annotation = clazz.getAnnotation(MyCompetent.class);
-            if (annotation != null) {
+            if (annotation != null && clazz != null) {
                 myContext.push(clazz);
             }
         }
+        //this.myContext.show();
     }
 
     /**
@@ -69,13 +70,16 @@ public class MyApplication {
      * @param classList
      */
     private void injectionObject(List<Class> classList) {
-        for (Class clazz : classList) {
-            Field[] fields = clazz.getFields();
+        for (Class clazz : this.myContext.classSet()) {
+            Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 if (field.getAnnotation(MyAutoWired.class) != null) {
                     try {
-                        field.set(clazz, this.myContext.getObject(field.getClass()));
-                    } catch (IllegalAccessException e) {
+                        field.setAccessible(true);
+                        Object fieldObject = this.myContext.getObject(field.getType());
+                        Object clazzObject = this.myContext.getObject(clazz);
+                        field.set(clazzObject, fieldObject);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -94,7 +98,7 @@ public class MyApplication {
     private List<Class> getClassList(List<String> fileName, String pack, String basePath) {
         List<Class> classList = new ArrayList<>();
         for (String str : fileName) {
-            String className = str.replace(basePath, pack + ".").replace(".class", "").replace(File.separator,".");
+            String className = str.replace(basePath, pack + ".").replace(".class", "").replace(File.separator, ".");
             Class clazz = null;
             try {
                 clazz = Class.forName(className);
