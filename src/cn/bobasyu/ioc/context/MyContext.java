@@ -1,7 +1,5 @@
 package cn.bobasyu.ioc.context;
 
-import cn.bobasyu.test.aaa.impl.MyTestInterfaceImpl;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +17,9 @@ public class MyContext {
         this.objectMap = new HashMap<>();
     }
 
-    public void push(List<Class> classList) {
+    void push(List<Class> classList) {
         for (Class clazz : classList) {
-            try {
-                objectMap.put(clazz, clazz.newInstance());
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            push(clazz);
         }
     }
 
