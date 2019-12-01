@@ -17,13 +17,13 @@ public class MyContext {
         this.objectMap = new HashMap<>();
     }
 
-    void push(List<Class> classList) {
+    public void push(List<Class> classList) {
         for (Class clazz : classList) {
             push(clazz);
         }
     }
 
-    void push(Class clazz) {
+    public void push(Class clazz) {
         try {
             objectMap.put(clazz, clazz.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
@@ -31,7 +31,7 @@ public class MyContext {
         }
     }
 
-    Object getObject(Class clazz) {
+    public Object getObject(Class clazz) {
         if (objectMap.containsKey(clazz)) {
             return objectMap.get(clazz);
         }
@@ -46,7 +46,7 @@ public class MyContext {
         return null;
     }
 
-    Set<Class> classSet() {
+    public Set<Class> classSet() {
         return objectMap.keySet();
     }
 

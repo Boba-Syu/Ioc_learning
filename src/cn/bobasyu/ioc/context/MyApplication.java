@@ -109,4 +109,8 @@ public class MyApplication {
         }
         return classList;
     }
+
+    public MyContext getMyContext() {
+        return myContext;
+    }
 }
