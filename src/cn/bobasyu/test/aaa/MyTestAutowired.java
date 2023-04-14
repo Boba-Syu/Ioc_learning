@@ -4,7 +4,7 @@ import cn.bobasyu.ioc.annotation.MyAutoWired;
 import cn.bobasyu.ioc.annotation.MyCompetent;
 
 /**
- * @author Boba
+ * @author Bobasyu
  */
 @MyCompetent
 public class MyTestAutowired {

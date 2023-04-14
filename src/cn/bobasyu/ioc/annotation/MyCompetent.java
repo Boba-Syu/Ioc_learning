@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author boba
+ * 标有该注解的类会在容器中生成实例对象
+ *
+ * @author Bobasyu
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

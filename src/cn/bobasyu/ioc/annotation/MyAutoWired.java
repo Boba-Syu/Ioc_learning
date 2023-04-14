@@ -7,7 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * 标有这个注解的变量将会被注入相对应的对象
- * @author Boba
+ *
+ * @author Bobasyu
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

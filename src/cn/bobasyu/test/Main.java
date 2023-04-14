@@ -7,7 +7,7 @@ import cn.bobasyu.ioc.annotation.MyScan;
 import cn.bobasyu.ioc.context.MyApplication;
 
 /**
- * @author Boba
+ * @author Bobasyu
  */
 
 @MyScan("cn.bobasyu.test")

@@ -1,7 +1,7 @@
 package cn.bobasyu.test.aaa;
 
 /**
- * @author Boba
+ * @author Bobasyu
  */
 public interface MyTestInterface {
 

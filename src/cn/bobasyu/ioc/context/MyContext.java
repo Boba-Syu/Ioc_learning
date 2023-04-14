@@ -1,15 +1,12 @@
 package cn.bobasyu.ioc.context;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * IoC容器
  *
- * @author Boba
+ * @author Bobasyu
  */
 public class MyContext {
     /**
@@ -42,8 +39,9 @@ public class MyContext {
      */
     public Object getObject(Class clazz) {
         if (objectMap.containsKey(clazz)) {
-            return this.getObjectMap().get(clazz);
+            return this.objectMap.get(clazz);
         }
+
         for (Class c : objectMap.keySet()) {
             for (Class i : c.getInterfaces()) {
                 if (clazz.equals(i)) {
@@ -55,16 +53,11 @@ public class MyContext {
     }
 
     /**
-     * 获取mao容器键的集合
+     * 获取map容器键的集合
      *
      * @return
      */
     protected Set<Class> classSet() {
         return objectMap.keySet();
     }
-
-    public Map<Class, Object> getObjectMap() {
-        return this.objectMap;
-    }
-
 }

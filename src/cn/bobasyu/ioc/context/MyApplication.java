@@ -11,10 +11,11 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * @author Boba
+ * @author Bobasyu
  */
 public class MyApplication {
     private MyContext myContext;
@@ -23,6 +24,11 @@ public class MyApplication {
         this.myContext = new MyContext();
     }
 
+    /**
+     * 启动IoC容器
+     *
+     * @param clazz 启动类名称
+     */
     public void run(Class clazz) {
         MyScan myScan = (MyScan) clazz.getAnnotation(MyScan.class);
         String pack = myScan.value();
@@ -30,7 +36,7 @@ public class MyApplication {
             pack = clazz.getPackage().toString().replace("package ", "");
         }
         // 先把包名转换为路径,首先得到项目的classpath
-        String classpath = clazz.getResource("/").getPath().replace("/", File.separator);
+        String classpath = Objects.requireNonNull(clazz.getResource("/")).getPath().replace("/", File.separator);
         //然后把我们的包名basPath转换为路径名
         String basePath = classpath + pack.replace(".", File.separator);
         init(pack, basePath);
@@ -57,19 +63,16 @@ public class MyApplication {
      * @param classList 需要添加到容器的Class列表
      */
     private void addObject(List<Class> classList) {
-        classList.parallelStream().forEach(clazz -> {
-            Annotation annotation = clazz.getAnnotation(MyCompetent.class);
-            if (annotation != null && clazz != null) {
-                this.getMyContext().push(clazz);
-            }
-        });
+        classList.parallelStream()
+                .filter(clazz -> clazz != null && clazz.getAnnotation(MyCompetent.class) != null)
+                .forEach(clazz -> myContext.push(clazz));
     }
 
     /**
      * 将容器中的实例中标记有@MyAutoWired注解的属性注入相应的对象
      */
     private void injectionObject() {
-        this.getMyContext().classSet().parallelStream().forEach(clazz -> {
+        this.myContext.classSet().parallelStream().forEach(clazz -> {
             Field[] fields = clazz.getDeclaredFields();
             Arrays.stream(fields).filter(field -> field.getAnnotation(MyAutoWired.class) != null)
                     .forEach(field -> {
@@ -107,9 +110,4 @@ public class MyApplication {
             return null;
         }).collect(Collectors.toList());
     }
-
-    private MyContext getMyContext() {
-        return myContext;
-    }
-
 }

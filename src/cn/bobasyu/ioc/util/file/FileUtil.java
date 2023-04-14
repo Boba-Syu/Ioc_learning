@@ -2,12 +2,13 @@ package cn.bobasyu.ioc.util.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 和文件有关的工具类
  *
- * @author Boba
+ * @author Bobasyu
  */
 public class FileUtil {
     public static String replaceBasePath(String basePath) {
@@ -34,14 +35,13 @@ public class FileUtil {
         try {
             // 判断是否存在目录
             if (!dir.exists() || !dir.isDirectory()) {
-                throw new FileNotFoundException("file path" + dir.getPath() + "not exist.");
+                throw new FileNotFoundException("file path " + dir.getPath() + " not exist.");
             }
             // 读取目录下的所有目录文件信息
             String[] files = dir.list();
             // 循环，添加文件名或回调自身
-            for (int i = 0; i < files.length; i++) {
-                File file = new File(dir, files[i]);
 
+            Arrays.stream(files).map(f -> new File(dir, f)).forEach(file -> {
                 if (file.isFile()) {
                     // 如果文件是, 添加文件全路径名
                     fileNames.add(dir + "\\" + file.getName());
@@ -49,7 +49,7 @@ public class FileUtil {
                     // 如果是目录, 回调自身继续查询
                     findFileList(file, fileNames);
                 }
-            }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

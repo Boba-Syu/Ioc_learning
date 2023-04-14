@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * 注解扫描
  * 扫描value中的包下的所有注解
  *
- * @author Boba
+ * @author Bobasyu
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
