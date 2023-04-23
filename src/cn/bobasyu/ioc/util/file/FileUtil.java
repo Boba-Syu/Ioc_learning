@@ -2,6 +2,9 @@ package cn.bobasyu.ioc.util.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,25 +36,17 @@ public class FileUtil {
      */
     public static void findFileList(File dir, List<String> fileNames) {
         try {
-            // 判断是否存在目录
-            if (!dir.exists() || !dir.isDirectory()) {
-                throw new FileNotFoundException("file path " + dir.getPath() + " not exist.");
-            }
-            // 读取目录下的所有目录文件信息
-            String[] files = dir.list();
-            // 循环，添加文件名或回调自身
-
-            Arrays.stream(files).map(f -> new File(dir, f)).forEach(file -> {
-                if (file.isFile()) {
+            Files.walkFileTree(Paths.get(dir.getPath()), new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     // 如果文件是, 添加文件全路径名
-                    fileNames.add(dir + "\\" + file.getName());
-                } else {
-                    // 如果是目录, 回调自身继续查询
-                    findFileList(file, fileNames);
+                    fileNames.add(file.toString());
+                    return super.visitFile(file, attrs);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }
